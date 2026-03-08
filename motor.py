@@ -144,12 +144,12 @@ def print_banner():
     _clr()
     lines = [
         f"{Fore.GREEN}{Style.BRIGHT}",
-        "   ███████╗██████╗ ██╗   ██╗ ██████╗ █████╗ ████████╗██╗ ██╗   ██╗███████╗",
-        "   ██╔════╝██╔══██╗██║   ██║██╔════╝██╔══██╗╚══██╔══╝██║ ██║   ██║██╔════╝",
-        "   █████╗  ██║  ██║██║   ██║██║     ███████║   ██║   ██║ ██║   ██║█████╗  ",
-        "   ██╔══╝  ██║  ██║██║   ██║██║     ██╔══██║   ██║   ██║ ╚██╗ ██╔╝██╔══╝  ",
-        "   ███████╗██████╔╝╚██████╔╝╚██████╗██║  ██║   ██║   ██║  ╚████╔╝ ███████╗",
-        "   ╚══════╝╚═════╝  ╚═════╝  ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝   ╚═══╝  ╚══════╝",
+        "   ███████╗██████╗ ██╗  ██╗███╗   ███╗███████╗██╗      ██╗   ██╗ ██████╗",
+        "   ██╔════╝██╔══██╗██║  ██║████╗ ████║██╔════╝██║      ██║   ██║██╔════╝",
+        "   █████╗  ██████╔╝███████║██╔████╔██║█████╗  ██║      ██║   ██║██║     ",
+        "   ██╔══╝  ██╔══██╗╚════██║██║╚██╔╝██║██╔══╝  ██║      ██║   ██║██║     ",
+        "   ██║     ██║  ██║     ██║██║ ╚═╝ ██║███████╗███████╗ ╚██████╔╝╚██████╗",
+        "   ╚═╝     ╚═╝  ╚═╝     ╚═╝╚═╝     ╚═╝╚══════╝╚══════╝  ╚═════╝  ╚═════╝",
         f"{Style.RESET_ALL}",
     ]
     for line in lines:
@@ -158,9 +158,9 @@ def print_banner():
         time.sleep(0.06)
 
     _line("═", Fore.GREEN)
-    center_text = "  Educational Pentesting Framework  v2.0  |  Linux & Ethical Use Only"
+    center_text = "  Fr4meLuc  |  Educational Pentesting Framework  v2.0  |  Linux & Ethical Use Only"
     pad = (W - len(center_text)) // 2
-    print(f"{Fore.GREEN}{'═' * pad}{Style.BRIGHT}{center_text}{Style.RESET_ALL}{Fore.GREEN}{'═' * (W - pad - len(center_text))}")
+    print(f"{Fore.GREEN}{'═' * pad}{Style.BRIGHT}{Fore.YELLOW}{center_text}{Style.RESET_ALL}{Fore.GREEN}{'═' * (W - pad - len(center_text))}")
     _line("═", Fore.GREEN)
     print()
 

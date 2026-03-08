@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ============================================================
-#  Educational Pentesting Framework — Installer
-#  Requires: Kali Linux / Debian-based distro
+#  Fr4meLuc — Instalador
+#  Requisitos: Kali Linux / Distribuciones basadas en Debian
 # ============================================================
 set -e
 
@@ -12,9 +12,9 @@ CYAN='\033[0;36m'
 NC='\033[0m'
 
 echo -e "${CYAN}"
-echo "  ╔══════════════════════════════════════════════════╗"
-echo "  ║   Educational Pentesting Framework — Installer  ║"
-echo "  ╚══════════════════════════════════════════════════╝"
+echo "  ╔═════════════════════════════════════════════════╗"
+echo "  ║              Fr4meLuc — Instalador              ║"
+echo "  ╚═════════════════════════════════════════════════╝"
 echo -e "${NC}"
 
 # Check root
@@ -54,9 +54,9 @@ pip3 install -r requirements.txt -q
 echo -e "${YELLOW}[*] Actualizando plantillas de Nuclei...${NC}"
 nuclei -ut -silent 2>/dev/null || true
 
-chmod +x edu_pentest_framework.py
+chmod +x motor.py
 
 echo -e "${GREEN}"
-echo "  [+] Instalacion completada."
-echo "  [+] Ejecuta: sudo python3 edu_pentest_framework.py"
+echo "  [+] Instalación completada."
+echo "  [+] Ejecuta: sudo python3 motor.py"
 echo -e "${NC}"
