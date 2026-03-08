@@ -227,8 +227,11 @@ deactivate
 ## Uso
 
 ```bash
+# Clona el repositorio
+git clone https://github.com/luchernan/FrameWorkLucas
+
 # Entra en el directorio del proyecto
-cd proyecto2/
+cd FrameWorkLucas/
 
 # Da permisos de ejecución al script de instalación (solo la primera vez)
 sudo chmod +x install.sh

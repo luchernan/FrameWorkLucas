@@ -1353,7 +1353,7 @@ def generate_html_report(ip, domain, workspace_dir):
 
     <div class="main-content">
         <div class="header">
-            <h1>Executive Audit Report</h1>
+            <h1>Reporte de Fr4meLuc</h1>
             <p>Resumen analítico de reconocimiento y vulnerabilidades</p>
             <span style="position: absolute; top: 40px; right: 40px; background: rgba(0,255,136,0.1); color: var(--primary); padding: 8px 16px; border-radius: 8px; font-weight:600; font-size:0.85rem; border:1px solid rgba(0,255,136,0.2);">{now}</span>
         </div>
@@ -1379,7 +1379,7 @@ def generate_html_report(ip, domain, workspace_dir):
 
         <!-- SECCION NMAP -->
         <div class="card">
-            <div class="section-title"><h2>🛰 Reconocimiento de Puertos (Nmap)</h2></div>
+            <div class="section-title"><h2>Reconocimiento de Puertos (Nmap)</h2></div>
             """
 
     if nmap_data:
@@ -1441,7 +1441,7 @@ def generate_html_report(ip, domain, workspace_dir):
 
         <!-- SECCION FFUF -->
         <div class="card">
-            <div class="section-title"><h2>🗂 Subdominios Descubiertos (FFuF)</h2></div>
+            <div class="section-title"><h2>Subdominios Descubiertos (FFuF)</h2></div>
             """
     if ffuf_results:
         html_content += "<table><thead><tr><th>Subdominio Encontrado</th><th>HTTP Status</th><th>URL Completa</th></tr></thead><tbody>"
@@ -1462,7 +1462,7 @@ def generate_html_report(ip, domain, workspace_dir):
 
         <!-- LOGS TEXTUALES PLANOS DE OTRAS HERRAMIENTAS (SearchSploit, Enum4Linux, WPScan, Gobuster) -->
         <div class="card">
-            <div class="section-title"><h2>📄 Volcado de Evidencia RAW (Otras Herramientas)</h2></div>
+            <div class="section-title"><h2>Volcado de Evidencia RAW (Otras Herramientas)</h2></div>
             """
 
     found_logs = False
