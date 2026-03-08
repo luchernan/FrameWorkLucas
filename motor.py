@@ -9,7 +9,7 @@ Dependencias sistema: sudo ./install.sh
 LEGAL DISCLAIMER:
   Esta herramienta esta disenada EXCLUSIVAMENTE para uso educativo en
   laboratorios controlados (CTFs, maquinas virtuales propias, HackTheBox,
-  TryHackMe). Usar contra sistemas sin autorizacion explicita es ilegal.
+  TryHackMe, DockerLabs). Usar contra sistemas sin autorizacion explicita es ilegal.
 """
 
 import os
@@ -933,6 +933,68 @@ def run_enum4linux(target, workspace_dir):
     run_cmd(['enum4linux', '-a', target], capture_output=True, log_file=log_file)
 
 
+def download_peas(workspace_dir):
+    """Descarga automáticamente LinPEAS y WinPEAS a la carpeta payloads para facil transferencia."""
+    print(f"\n{Fore.GREEN}[*] Descargando scripts de escalada de privilegios (PEAS)...{Style.RESET_ALL}")
+    payload_dir = os.path.join(workspace_dir, "payloads")
+    if not os.path.exists(payload_dir):
+         os.makedirs(payload_dir)
+         
+    linpeas_url = "https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh"
+    winpeas_url = "https://github.com/peass-ng/PEASS-ng/releases/latest/download/winPEASany.exe"
+    
+    _line("-", Fore.YELLOW)
+    print(f"{Fore.CYAN}[>] Descargando LinPEAS...{Style.RESET_ALL}")
+    subprocess.run(['wget', '-q', '--show-progress', '-O', os.path.join(payload_dir, 'linpeas.sh'), linpeas_url])
+    
+    print(f"{Fore.CYAN}[>] Descargando WinPEAS...{Style.RESET_ALL}")
+    subprocess.run(['wget', '-q', '--show-progress', '-O', os.path.join(payload_dir, 'winpeas.exe'), winpeas_url])
+    _line("-", Fore.YELLOW)
+    
+    print(f"\n{Fore.GREEN}[+] Descargas completadas en: {payload_dir}{Style.RESET_ALL}")
+    print(f"{Fore.YELLOW}[*] Sugerencia: Usa ahora la opción de 'Servidor HTTP' para servirlos a la víctima.{Style.RESET_ALL}")
+
+
+def run_hash_cracking(workspace_dir):
+    """Módulo para automatizar John The Ripper con Hashes encontrados."""
+    if shutil.which('john') is None:
+        print(f"{Fore.RED}[!] John The Ripper ('john') no está instalado. Instalalo con: sudo apt install john")
+        return
+        
+    print(f"\n{Fore.GREEN}[*] Inicializando Suite JOHN THE RIPPER (Cracking de Hashes offline){Style.RESET_ALL}")
+    
+    hash_input = input(f"{Fore.CYAN}[?] Introduce el hash a crackear (ej. $1$abcde$12345) o pulsa Enter para salir: ").strip()
+    if not hash_input:
+        return
+        
+    wordlist = input(f"{Fore.CYAN}[?] Ruta del diccionario (Enter para /usr/share/wordlists/rockyou.txt): ").strip()
+    if not wordlist:
+        wordlist = "/usr/share/wordlists/rockyou.txt"
+        
+    if not os.path.exists(wordlist):
+        print(f"{Fore.RED}[!] No se encontró el diccionario: {wordlist}")
+        return
+        
+    edu_print(
+        tool="John The Ripper",
+        phase="Explotación / Escalamiento (Descifrado Offline)",
+        explanation="- 'john --wordlist=diccionario hash.txt':\n"
+                    "- Intenta adivinar la contraseña original probando miles de palabras contra el hash criptográfico dado."
+    )
+    
+    hash_file = os.path.join(workspace_dir, "exploits", "target_hash.txt")
+    with open(hash_file, "w") as f:
+        f.write(hash_input + "\n")
+        
+    print(f"{Fore.YELLOW}[>] Guardando Hash en: {hash_file}{Style.RESET_ALL}")
+    log_file = os.path.join(workspace_dir, "exploits", "john_cracking_results.txt")
+    
+    print(f"{Fore.YELLOW}[>] Ejecutando John... Esto puede tardar.{Style.RESET_ALL}")
+    run_cmd(['john', f'--wordlist={wordlist}', hash_file], capture_output=False, log_file=log_file)
+    print(f"\n{Fore.GREEN}[*] Ejecutando john --show para ver resultados...{Style.RESET_ALL}")
+    subprocess.run(['john', '--show', hash_file])
+
+
 def start_http_server_payloads(workspace_dir):
     """Levanta un servidor temporal local para servir archivos (LinPEAS, payloads)."""
     print(f"\n{Fore.GREEN}==================================================================")
@@ -1536,13 +1598,15 @@ def target_menu(ip):
         _section("FASE 3 -- EXPLOTACION & POST-EXPLOTACION", color=Fore.RED)
         _opt(10, "Busqueda de Exploits Publicos (SearchSploit)")
         _opt(11, "Fuerza Bruta de Autenticacion (Hydra FTP/SSH)")
-        _opt(12, "Servidor HTTP de Transferencia de Payloads")
-        _opt(13, "Abrir Puerto de Escucha Netcat (Reverse Shell)")
+        _opt(12, "Cracking de Hashes Offline (John The Ripper)")
+        _opt(13, "Descargar PEAS (Escalada de Privilegios Locales)")
+        _opt(14, "Servidor HTTP de Transferencia de Payloads")
+        _opt(15, "Abrir Puerto de Escucha Netcat (Reverse Shell)")
 
         # -- Reporting
         _section("REPORTING & SALIDA", color=Fore.MAGENTA)
-        _opt(14, "Compilar y Abrir Reporte HTML Maestro")
-        _opt(15, "Volver al Menu Principal")
+        _opt(16, "Compilar y Abrir Reporte HTML Maestro")
+        _opt(17, "Volver al Menu Principal")
 
         print()
         _line("─")
@@ -1584,12 +1648,16 @@ def target_menu(ip):
         elif opcion == '11':
              run_hydra_bruteforce(ip, workspace_dir)
         elif opcion == '12':
-             start_http_server_payloads(workspace_dir)
+             run_hash_cracking(workspace_dir)
         elif opcion == '13':
-             run_netcat_listener(workspace_dir)
+             download_peas(workspace_dir)
         elif opcion == '14':
-            generate_html_report(ip, active_domain, workspace_dir)
+             start_http_server_payloads(workspace_dir)
         elif opcion == '15':
+             run_netcat_listener(workspace_dir)
+        elif opcion == '16':
+            generate_html_report(ip, active_domain, workspace_dir)
+        elif opcion == '17':
             break
         else:
             _err("Opcion no reconocida. Introduce el numero correspondiente.")

@@ -124,6 +124,15 @@ Esta es una de las funcionalidades más avanzadas del framework:
 - Permite especificar usuario, diccionario de contraseñas y número de hilos paralelos.
 - Guarda los resultados en `workspace/exploits/hydra_ssh_bruteforce.txt`.
 
+#### Cracking de Hashes Offline (John The Ripper)
+- Permite introducir directamente un hash encontrado en la víctima (ej. hash de `/etc/shadow` o volcados de BD).
+- Lanza automáticamente **John The Ripper** contra el hash usando el diccionario indicado (por defecto `rockyou.txt`).
+- Descifra la contraseña offline sin interactuar más con el objetivo.
+
+#### Descarga automática de PEAS (Escalada de Privilegios)
+- Descarga la última versión oficial de **LinPEAS** (Linux) y **WinPEAS** (Windows) directamente desde GitHub.
+- Los guarda automáticamente en la carpeta `workspace/payloads`, dejándolos listos para ser transferidos a la víctima mediante el Servidor HTTP.
+
 #### Servidor HTTP de transferencia de payloads
 - Levanta un servidor HTTP temporal en la máquina local.
 - Permite transferir archivos (LinPEAS, scripts, payloads) al objetivo de forma sencilla usando `wget` o `curl` desde la víctima.

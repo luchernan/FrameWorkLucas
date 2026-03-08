@@ -39,6 +39,7 @@ apt install -y \
     exploitdb \
     netcat-traditional \
     arp-scan \
+    john \
     python3-pip 2>/dev/null || true
 
 echo -e "${YELLOW}[*] Instalando Nuclei...${NC}"
